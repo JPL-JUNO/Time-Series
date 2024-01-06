@@ -1,0 +1,22 @@
+\chapter{Modeling a moving average process\label{ch04}}
+\section{Defining a moving average process}
+A \textbf{moving average process}, or the moving average (MA) model, states that the current value is linearly dependent on the current and past error terms. The error terms are assumed to be mutually independent and normally distributed, just like white noise.
+
+A moving average model is denoted as $MA(q)$, where $q$ is the order. The model expresses the present value as a linear combination of the mean of the series $\mu$, the present error term $\epsilon_t$, and past error terms $\epsilon_{t-q}$. The magnitude of the impact of past errors on the present value is quantified using a coefficient denoted as $\theta_q$. Mathematically, we express a general moving average process of order $q$ as in \autoref{eq4-1}.
+\begin{equation}\label{eq4-1}
+    y_t=\mu+\epsilon_t+\theta_1\epsilon_{t-1}+\theta_2\epsilon_{t-2}+\cdots+\theta_q\epsilon_{t-q}
+\end{equation}
+\section{Forecasting a moving average process}
+对于预测范围，移动平均模型具有特殊性。 MA(q) 模型不允许我们一次性预测未来多步。 请记住，移动平均模型线性依赖于过去的误差项，并且这些项在数据集中未观察到 - 因此必须递归估计它们。 这意味着对于 MA(q) 模型，我们只能预测未来的 q 步。 超过该点所做的任何预测都不会包含过去的误差项，并且模型只会预测平均值。 因此，对未来超过 q 步的预测没有附加值，因为预测将持平，因为仅返回平均值，这相当于基线模型。
+\begin{tcolorbox}[title=Forecasting using the MA(q) model]
+    When using an MA(q) model, forecasting beyond q steps into the future will simply return the mean, because there are no error terms to estimate beyond q steps. We can use rolling forecasts to predict up to q steps at a time in order avoid predicting only the mean of the series.
+\end{tcolorbox}
+\section*{Summary}
+\begin{enumerate}
+    \item A moving average process states that the present value is linearly dependent on the mean, present error term, and past error terms. The error terms are normally distributed.
+    \item You can identify the order q of a stationary moving average process by studying the ACF plot. The coefficients are significant up until lag q only.
+    \item You can predict up to q steps into the future because the error terms are not observed in the data and must be recursively estimated.
+    \item \textbf{Predicting beyond q steps into the future will simply return the mean of the series. To avoid that, you can apply rolling forecasts.}
+    \item If you apply a transformation to the data, you must undo it to bring your predictions back to the original scale of the data.
+    \item The moving average model assumes the data is stationary. Therefore, you can only use this model on stationary data.
+\end{enumerate}

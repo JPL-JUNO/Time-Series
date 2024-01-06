@@ -1,0 +1,8 @@
+\chapter{Understanding time series forecasting\label{ch01}}
+\section{Forecasting the historical mean}
+\subsection{Implementing the historical mean baseline}
+\begin{equation}
+    MAPE=\frac{1}{n}\sum_{i=1}^{n}\left|\frac{A_i-F_i}{A_i}\right|\times 100
+\end{equation}
+$A_i$ is the actual value at point $i$ in time, and $F_i$ is the forecast value at point $i$ in time; $n$ is simply the number of forecasts.
+

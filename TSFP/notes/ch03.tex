@@ -1,0 +1,17 @@
+\chapter{Going on a random walk\label{ch03}}
+\section{Identifying a random walk}
+\begin{definition}
+    A random walk is a series whose first difference is stationary and uncorrelated. This means that the process moves completely at random.
+\end{definition}
+\figures{fig3-4}{Steps to follow to identify whether time series data can be approximated as a random walk or not. The first step is naturally to gather the data. Then we test for stationarity. If it is not stationary, we apply transformations until stationarity is achieved. Then we can plot the autocorrelation function (ACF). If there is no autocorrelation, we have a random walk.}
+\subsection{Stationarity}
+A stationary time series is one whose statistical properties do not change over time. In other words, it has a constant mean, variance, and autocorrelation, and these properties are independent of time.
+\figures{fig3-5}{Visualizing the differencing transformation. Here, a first-order differencing is applied. Notice how we lose one data point after this transformation because the initial point in time cannot be differenced with previous values since they do not exist.}
+\begin{tcolorbox}[title=Augmented Dickey-Fuller (ADF) test]
+    The augmented Dickey-Fuller (ADF) test helps us determine if a time series is stationary by testing for the presence of a unit root. If a unit root is present, the time series is not stationary.
+
+    The null hypothesis states that a unit root is present, meaning that our time series is not stationary.
+\end{tcolorbox}
+\section{Forecasting a random walk}
+\subsection{Forecasting on a long horizon}
+You should be convinced that forecasting a random walk on a long horizon does not make sense. Since the future value is dependent on the past value plus a random number, the randomness portion is magnified in a long horizon where many random numbers are added over the course of many timesteps.

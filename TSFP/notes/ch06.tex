@@ -1,0 +1,44 @@
+\chapter{Modeling complex time series\label{ch06}}
+\section{Identifying a stationary ARMA process}
+\begin{tcolorbox}[title=Identifying a stationary ARMA process]
+    If your process is stationary and both the ACF and PACF plots show a decaying or sinusoidal pattern, then it is a stationary ARMA(p,q) process.
+\end{tcolorbox}
+\section{Devising a general modeling procedure}
+We saw that if both the ACF and PACF plots display a sinusoidal or decaying pattern, our time series can be modeled by an ARMA(p,q) process. However, neither plot was useful for determining the orders p and q. With our simulated ARMA(1,1) process, we noticed that coefficients were significant after lag 1 in both plots.
+
+Therefore, we must devise a procedure that allows us to find the orders p and q. This procedure will have the advantage that it can also be applied in situations where our time series is non-stationary and has seasonal effects. Furthermore, it will also be suitable for cases where p or q are equal to 0, meaning that we can move away from plotting the ACF and PACF and rely entirely on a model selection criterion and residual analysis. The steps are shown in \autoref{fig6-6}.
+
+\figures{fig6-6}{
+    General modeling procedure for an ARMA(p,q) process. The first steps are to gather the data, test for stationarity, and apply transformations accordingly. Then we define a list of possible values for p and q. We then fit every combination of ARMA(p,q) to our data and select the model with the lowest AIC. Then we perform the residual analysis by looking at the Q-Q plot and the residual correlogram. If they approach that of white noise, the model can be used for forecasts. Otherwise, we must try different values for p and q.
+}
+\subsection{Understanding the Akaike information criterion (AIC)}
+The AIC estimates the quality of a model relative to other models. Given that there will be some information lost when a model is fitted to the data, the AIC quantifies the relative amount of information lost by the model. The less information lost, the lower the AIC value and the better the model.
+
+The AIC is a function of the number of estimated parameters $k$ and the maximum value of the likelihood function for the model $\hat{L}$
+\begin{equation}
+    AIC = 2k-2\ln(\hat{L})
+\end{equation}
+
+You can see how fitting a more complex model can penalize the AIC score: as the order (p,q) increases, the number of parameters k increases, and so the AIC increases.
+
+The likelihood function measures the goodness of fit of a model. It can be viewed as the opposite of the distribution function. Given a model with fixed parameters, the distribution function will measure the probability of observing a data point. The likelihood function flips the logic. \textbf{Given a set of observed data, it will estimate how likely it is that different model parameters will generate the observed data}.
+
+\subsection{Understanding residual analysis}
+
+\subsubsection*{QUANTITATIVE ANALYSIS: APPLYING THE LJUNG-BOX TEST}
+The Ljung-Box test is a statistical test that determines whether the autocorrelation of a group of data is significantly different from 0.
+
+In time series forecasting, we apply the Ljung-Box test on the model's residuals to test whether they are similar to white noise. The null hypothesis states that the data is independently distributed, meaning that there is no autocorrelation. If the p-value is larger than 0.05, we cannot reject the null hypothesis, meaning that the residuals are independently distributed. Therefore, there is no autocorrelation, the residuals are similar to white noise, and the model can be used for forecasting. If the p-value is less than 0.05, we reject the null hypothesis, meaning that our residuals are not independently distributed and are correlated. The model cannot be used for forecasting.
+
+
+\section*{Summary}
+\begin{itemize}
+    \item The autoregressive moving average model, denoted as ARMA(p,q), is the combination of the autoregressive model AR(p) and the moving average model MA(q).
+    \item An ARMA(p,q) process will display a decaying pattern or a sinusoidal pattern on both the ACF and PACF plots. Therefore, they cannot be used to estimate the orders p and q.
+    \item The general modeling procedure does not rely on the ACF and PACF plots. Instead, we fit many ARMA(p,q) models and perform model selection and residual analysis.
+    \item Model selection is done with the Akaike information criterion (AIC). It quantifies the information loss of a model, and it is related to the number of parameters in a model and its goodness of fit. The lower the AIC, the better the model.
+    \item The AIC is relative measure of quality. It returns the best model among other models. For an absolute measure of quality, we perform residual analysis.
+    \item Residuals of a good model must approximate white noise, meaning that they must be uncorrelated, normally distributed, and independent.
+    \item The Q-Q plot is a graphical tool for comparing two distributions. We use it to compare the distribution of the residuals against a theoretical normal distribution. If the plot shows a straight line that lies on y = x, then both distributions are similar. Otherwise, it means that the residuals are not normally distributed.
+    \item The Ljung-Box test allows us to determine whether the residuals are correlated or not. The null hypothesis states that the data is independently distributed and uncorrelated. If the returned p-values are larger than 0.05, we cannot reject the null hypothesis, meaning that the residuals are uncorrelated, just like white noise.
+\end{itemize}

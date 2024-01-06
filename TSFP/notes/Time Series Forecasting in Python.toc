@@ -1,0 +1,22 @@
+\babel@toc {english}{}\relax 
+\contentsline {part}{I\hspace {1em}Time waits for no one}{1}{part.1}%
+\contentsline {chapter}{\numberline {1}Understanding time series forecasting}{3}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Forecasting the historical mean}{3}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}Implementing the historical mean baseline}{3}{subsection.1.1.1}%
+\contentsline {chapter}{\numberline {2}Going on a random walk}{5}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Identifying a random walk}{5}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Stationarity}{5}{subsection.2.1.1}%
+\contentsline {section}{\numberline {2.2}Forecasting a random walk}{7}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Forecasting on a long horizon}{7}{subsection.2.2.1}%
+\contentsline {part}{II\hspace {1em}Forecasting with statistical models}{9}{part.2}%
+\contentsline {chapter}{\numberline {3}Modeling a moving average process}{11}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Defining a moving average process}{11}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Forecasting a moving average process}{11}{section.3.2}%
+\contentsline {chapter}{\numberline {4}Modeling an autoregressive process}{13}{chapter.4}%
+\contentsline {chapter}{\numberline {5}Modeling complex time series}{15}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Identifying a stationary ARMA process}{15}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Devising a general modeling procedure}{15}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Understanding the Akaike information criterion (AIC)}{17}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Understanding residual analysis}{17}{subsection.5.2.2}%
+\contentsline {part}{III\hspace {1em}Large-scale forecasting with deep learning}{19}{part.3}%
+\contentsline {part}{IV\hspace {1em}Automating forecasting at scale}{21}{part.4}%
