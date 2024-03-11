@@ -1,0 +1,15 @@
+.
+|-- code
+|-- data
+|   |-- AirPassengers.csv
+|   |-- UNRATE.csv
+|   |-- donations.csv
+|   |-- emails.csv
+|   `-- year_joined.csv
+|-- dir.txt
+|-- img
+|-- notes
+|   `-- ch01_time_series.md
+`-- rename.py
+
+4 directories, 8 files
