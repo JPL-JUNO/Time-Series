@@ -1,1 +1,5 @@
 rename.py
+.Rproj.user
+*.Rproj
+*.Rhistory
+*.RData
