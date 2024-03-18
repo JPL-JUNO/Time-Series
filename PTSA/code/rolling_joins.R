@@ -21,7 +21,7 @@ publicity <- data.table(
 setkey(publicity, "dt")
 setkey(donations, "dt")
 
-想要找到每次捐款前的营销活动
+# 想要找到每次捐款前的营销活动
 publicity[donations, roll = TRUE]
 # > publicity[donations, roll = TRUE]
 #    identifier         dt  amt
