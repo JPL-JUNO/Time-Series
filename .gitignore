@@ -3,3 +3,4 @@ rename.py
 *.Rproj
 *.Rhistory
 *.RData
+.vscode
