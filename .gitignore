@@ -4,3 +4,5 @@ rename.py
 *.Rhistory
 *.RData
 .vscode
+__pycache__
+*.pyc
