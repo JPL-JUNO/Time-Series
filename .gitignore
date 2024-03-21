@@ -3,3 +3,5 @@ rename.py
 *.Rproj
 *.Rhistory
 *.RData
+__pycache__
+*.pyc
