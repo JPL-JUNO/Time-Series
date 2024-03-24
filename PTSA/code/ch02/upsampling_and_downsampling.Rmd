@@ -1,0 +1,43 @@
+---
+title: "上采样与下采样"
+author: "Stephen CUI"
+date: "2024-03-18"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 下采样
+
+```{r}
+require(zoo)
+require(data.table)
+unemp <- fread("../data/UNRATE.csv")
+unemp[, DATE := as.Date(DATE)]
+setkey(unemp, DATE)
+rand.unemp.idx <- sample(1:nrow(unemp), .1 * nrow(unemp))
+rand.unemp <- unemp[-rand.unemp.idx]
+
+unemp[seq.int(from = 1, to = nrow(unemp), by = 12)]
+```
+
+```{r}
+unemp[, mean(UNRATE), by = format(DATE, "%Y")]
+```
+
+## 上采样
+
+```{r}
+all.dates <- seq(
+  from = unemp$DATE[1], to = tail(unemp$DATE, 1),
+  by = "months"
+)
+rand.unemp <- rand.unemp[J(all.dates), roll = 0]
+```
+
+```{r}
+daily.unemployment <- unemp[J(all.dates), roll = 31]
+daily.unemployment
+```
