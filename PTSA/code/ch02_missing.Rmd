@@ -65,10 +65,25 @@ dev.off()
 rand.unemp[, impute.rm.nolookahead := rollapply(
   c(NA, NA, UNRATE), 3,
   function(x) {
-    if (!is.na(x[3])) x[3] else mean(x, na.rm = TRUE)
+    if (!is.na(x[1])) x[1] else mean(x, na.rm = TRUE)
   }
 )]
 bias.unemp[, impute.rm.nolookahead := rollapply(
+  c(NA, NA, UNRATE), 3,
+  function(x) {
+    if (!is.na(x[1])) x[1] else mean(x, na.rm = TRUE)
+  }
+)]
+```
+
+```{r}
+rand.unemp[, impute.rm.lookahead := rollapply(
+  c(NA, NA, UNRATE), 3,
+  function(x) {
+    if (!is.na(x[3])) x[3] else mean(x, na.rm = TRUE)
+  }
+)]
+bias.unemp[, impute.rm.lookahead := rollapply(
   c(NA, NA, UNRATE), 3,
   function(x) {
     if (!is.na(x[3])) x[3] else mean(x, na.rm = TRUE)
@@ -90,7 +105,7 @@ rand.unemp[, complete.rm := rollapply(
 ```
 如果是为预测模型提供数据，那么移动平均不是很好的选择。
 ```{r}
-png("../img/moving_average_plot.png")
+png("img/moving_average_plot.png")
 use.idx <- 150:200
 unemp[use.idx, plot(DATE, UNRATE, col = 1, type = "b")]
 rand.unemp[use.idx, lines(DATE, impute.rm.nolookahead, col = 2)]
@@ -98,4 +113,55 @@ rand.unemp[use.idx][rpt == TRUE, points(DATE, impute.rm.nolookahead, col = 2, lw
 rand.unemp[use.idx, lines(DATE, impute.rm.nolookahead, col = 3)]
 rand.unemp[use.idx][rpt == TRUE, points(DATE, impute.rm.nolookahead, col = 3, lwd = 3)]
 dev.off()
+```
+
+使用数据集的平均值来估算缺失数据
+
+在横截面背景下，通常通过填写缺失变量的平均值或中位数来估算缺失数据。虽然这可以通过时间序列数据来完成，但它不适用于大多数情况。了解数据集的平均值涉及查看了未来数据……这就是前瞻！
+
+#### 插值法
+
+插值是一种根据我们希望整体数据如何表现的几何约束来确定缺失数据点的值的方法。例如，线性插值将缺失数据限制为与已知相邻点一致的线性拟合。
+
+线性插值特别有用且有趣，因为它允许您利用有关系统随时间变化的行为的知识。例如，如果您知道系统以线性方式运行，则可以构建该知识，以便仅使用线性趋势来估算丢失的数据。用贝叶斯语言来说，它允许您在插补中注入先验知识。
+
+与移动平均线一样，可以进行插值，以便同时查看过去和未来的数据或仅查看一个方向。通常的警告适用：只有当您接受这会创建前瞻并且您确定这对您的任务来说不是问题时，才允许您的插值访问未来的数据。
+
+```{r}
+# 线性插值
+rand.unemp[, impute.li := na.approx(UNRATE)]
+bias.unemp[, impute.li := na.approx(UNRATE)]
+
+# 多项式插值
+rand.unemp[, impute.sp := na.spline(UNRATE)]
+bias.unemp[, impute.sp := na.spline(UNRATE)]
+
+png("img/spline_plot.png")
+use.idx <- 650:680
+unemp[use.idx, plot(DATE, UNRATE, col = 1, type = "b")]
+rand.unemp[use.idx, lines(DATE, impute.li, col = 2)]
+rand.unemp[use.idx][rpt == TRUE, points(DATE, impute.li, col = 2, lwd = 3)]
+rand.unemp[use.idx, lines(DATE, impute.sp, col = 2)]
+rand.unemp[use.idx][rpt == TRUE, points(DATE, impute.sp, col = 3, lwd = 3)]
+dev.off()
+```
+
+```{r}
+sort(
+  unlist(
+    rand.unemp[, lapply(.SD, function(x) mean((x - unemp$UNRATE)^2, na.rm = TRUE)),
+      .SDcols = c("impute.ff", "impute.rm.nolookahead", "impute.rm.lookahead", "impute.li", "impute.sp")
+    ]
+  )
+)
+```
+
+```{r}
+sort(
+  unlist(
+    bias.unemp[, lapply(.SD, function(x) mean((x - unemp$UNRATE)^2, na.rm = TRUE)),
+      .SDcols = c("impute.ff", "impute.rm.nolookahead", "impute.rm.lookahead", "impute.li", "impute.sp")
+    ]
+  )
+)
 ```
