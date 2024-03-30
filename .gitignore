@@ -6,3 +6,4 @@ rename.py
 .vscode
 __pycache__
 *.pyc
+MTSFP/data
