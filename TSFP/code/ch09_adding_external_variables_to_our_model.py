@@ -90,3 +90,47 @@ print(best_model_fit.summary())
 best_model_fit.plot_diagnostics(figsize=(10, 8))
 residuals = best_model_fit.resid
 lb_result = acorr_ljungbox(residuals, np.arange(1, 11, 1))
+
+
+def rolling_forecast(
+    endog: Union[pd.Series, list],
+    exog: Union[pd.Series, list],
+    train_len: int,
+    horizon: int,
+    window: int,
+    method: str,
+) -> list:
+    total_len = train_len + horizon
+    if method == "last":
+        pred_last_value = []
+        for i in range(train_len, total_len, window):
+            last_value = endog[:i].iloc[-1]
+            pred_last_value.extend(last_value for _ in range(window))
+        return pred_last_value
+    elif method == "SARIMAX":
+        pred_SARIMAX = []
+        for i in range(train_len, total_len, window):
+            model = SARIMAX(
+                endog[:i],
+                exog[:i],
+                order=(3, 1, 3),
+                seasonal_order=(0, 0, 0, 4),
+                simple_differencing=False,
+            )
+            res = model.fit(disp=False)
+            predictions = res.get_prediction(exog=exog)
+            oss_pred = predictions.predicted_mean.iloc[-window:]
+            pred_SARIMAX.extend(oss_pred)
+        return pred_SARIMAX
+
+
+target_train = target[:196]
+target_test = target[196:]
+pred_df = pd.DataFrame({"actual": target_test})
+TRAIN_LEN = len(target_train)
+HORIZON = len(target_test)
+WINDOW = 1
+pred_last_value = rolling_forecast(target, exog, TRAIN_LEN, HORIZON, WINDOW, "last")
+pred_SARIMAX = rolling_forecast(target, exog, TRAIN_LEN, HORIZON, WINDOW, "SARIMAX")
+pred_df["pred_last_value"] = pred_last_value
+pred_df["pred_SARIMAX"] = pred_SARIMAX
