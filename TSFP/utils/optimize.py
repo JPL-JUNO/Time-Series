@@ -1,6 +1,7 @@
 from typing import Union
 from tqdm import tqdm
 from statsmodels.tsa.statespace.sarimax import SARIMAX
+from statsmodels.tsa.statespace.varmax import VARMAX
 import pandas as pd
 
 
@@ -72,4 +73,22 @@ def optimize_SARIMAX(
     # Sort in ascending order, lower AIC is better
     result_df = result_df.sort_values(by="AIC", ascending=True).reset_index(drop=True)
 
+    return result_df
+
+
+def optimize_VAR(endog: Union[pd.Series, list]) -> pd.DataFrame:
+    results = []
+
+    for i in tqdm(range(15)):
+        try:
+            model = VARMAX(endog, order=(i, 0)).fit(disp=False)
+        except:
+            continue
+        aic = model.aic
+        results.append([i, aic])
+
+    result_df = pd.DataFrame(results)
+    result_df.columns = ["p", "AIC"]
+
+    result_df = result_df.sort_values(by="AIC", ascending=False).reset_index(drop=True)
     return result_df

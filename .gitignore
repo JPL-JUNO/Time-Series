@@ -7,3 +7,6 @@ rename.py
 __pycache__
 *.pyc
 MTSFP/data
+draft.*
+log
+*.log
