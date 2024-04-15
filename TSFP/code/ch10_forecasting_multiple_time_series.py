@@ -40,6 +40,7 @@ plt.xticks(np.arange(0, 208, 16), np.arange(1959, 2010, 4))
 fig.autofmt_xdate()
 plt.tight_layout()
 
+# BUG 是不是应该先分 train 和 test，在进行差分的判断？
 ad_fuller_result_1 = adfuller(macro_econ_data["realdpi"])
 print_adf_result(ad_fuller_result_1, "realdpi")
 
