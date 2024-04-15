@@ -90,5 +90,5 @@ def optimize_VAR(endog: Union[pd.Series, list]) -> pd.DataFrame:
     result_df = pd.DataFrame(results)
     result_df.columns = ["p", "AIC"]
 
-    result_df = result_df.sort_values(by="AIC", ascending=False).reset_index(drop=True)
+    result_df = result_df.sort_values(by="AIC", ascending=True).reset_index(drop=True)
     return result_df
