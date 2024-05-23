@@ -10,3 +10,7 @@ MTSFP/data
 draft.*
 log
 *.log
+*.toc
+*.aux
+*.out
+*.synctex.gz
